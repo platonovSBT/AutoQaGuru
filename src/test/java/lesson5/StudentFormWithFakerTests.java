@@ -1,6 +1,9 @@
 package lesson5;
 
 import com.github.javafaker.Faker;
+import lesson5.pageObject.ButtonElement;
+import lesson5.pageObject.CalendarElement;
+import lesson5.pageObject.FileElement;
 import lesson5.pageObject.UserInfo;
 import org.junit.jupiter.api.Test;
 
@@ -15,6 +18,10 @@ public class StudentFormWithFakerTests extends InitTest {
 
     Faker faker = new Faker();
     UserInfo userInfo = new UserInfo();
+    CalendarElement calendarElement= new CalendarElement();
+    ButtonElement submit= new ButtonElement();
+    FileElement uploadFile= new FileElement();
+
     String firstName = faker.name().firstName(),
             lastName = faker.name().lastName(),
             email = faker.internet().emailAddress(),
@@ -54,17 +61,15 @@ public class StudentFormWithFakerTests extends InitTest {
         userInfo.setHobby(hobby1);
         userInfo.getHobby().click();
         userInfo.setAddress(currentAddress);
-        $("#dateOfBirthInput").click();
-        $(".react-datepicker__year-select").selectOption(yearOfBirth);
-        $(".react-datepicker__month-select").selectOption(monthOfBirth);
-        $(String.format(".react-datepicker__day--0%s:not(.react-datepicker__day--outside-month)", dayOfBirth)).click();
-        $("#subjectsInput").val(subject1).pressEnter();
-        $("#uploadPicture").uploadFromClasspath("img/"+picture);
-        $("#state").click();
-        $("#stateCity-wrapper").$(byText(state)).click();
-        $("#city").click();
-        $("#stateCity-wrapper").$(byText(city)).click();
-        $("[id=submit]").click();
+        calendarElement.setDayOfBirth(yearOfBirth,monthOfBirth,dayOfBirth);
+        userInfo.setSubject1(subject1);
+        userInfo.getSubject1().pressEnter();
+        uploadFile.uploadFile(picture);
+        userInfo.setState(state);
+        userInfo.getState().click();
+        userInfo.setCity(city);
+        userInfo.getCity().click();
+        submit.clickSubmit();
 
         //Check data
         $("#example-modal-sizes-title-lg").shouldHave(text("Thanks for submitting the form"));

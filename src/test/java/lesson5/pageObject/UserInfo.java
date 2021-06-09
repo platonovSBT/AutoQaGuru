@@ -1,6 +1,5 @@
 package lesson5.pageObject;
 
-import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 
 import static com.codeborne.selenide.Selectors.byText;
@@ -13,7 +12,10 @@ public class UserInfo {
             mobile,
             gender,
             hobby,
-            address;
+            address,
+            subject1,
+            state,
+            city;
 
     public SelenideElement getFirstName() {
         return firstName;
@@ -69,5 +71,31 @@ public class UserInfo {
 
     public void setAddress(String value) {
         this.address =   $("#currentAddress").val(value);
+    }
+
+    public SelenideElement getSubject1() {
+        return subject1;
+    }
+
+    public void setSubject1(String subject1) {
+        this.subject1 =  $("#subjectsInput").val(subject1);
+    }
+
+    public SelenideElement getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        $("#state").click();
+        this.state = $("#stateCity-wrapper").$(byText(state));
+    }
+
+    public SelenideElement getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        $("#city").click();
+        this.city = $("#stateCity-wrapper").$(byText(city));
     }
 }
